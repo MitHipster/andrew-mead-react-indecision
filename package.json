@@ -1,0 +1,13 @@
+{
+  "name": "andrew-mead-react-indecision",
+  "version": "1.0.0",
+  "description": "Andrew Mead React Course",
+  "main": "index.js",
+  "repository": "git@github.com:MitHipster/andrew-mead-react-indecision.git",
+  "author": "Andrew Mead",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1"
+  }
+}
