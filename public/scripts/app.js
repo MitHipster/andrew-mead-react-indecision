@@ -219,13 +219,14 @@ var AddOption = function (_React$Component6) {
 
 			var option = e.target.elements.option.value.trim();
 			var error = this.props.handleAddOption(option);
+
 			if (!error) {
 				e.target.elements.option.value = '';
-			} else {
-				this.setState(function () {
-					return { error: error };
-				});
 			}
+			// Need to setState even if error = undefined in order to overwrite existing error
+			this.setState(function () {
+				return { error: error };
+			});
 		}
 	}, {
 		key: 'render',

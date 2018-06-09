@@ -112,13 +112,14 @@ class AddOption extends React.Component {
 
 		const option = e.target.elements.option.value.trim();
 		const error = this.props.handleAddOption(option);
+		
 		if (!error) {
 			e.target.elements.option.value = '';
-		} else {
-			this.setState (() => {
-				return { error };
-			});
 		}
+		// Need to setState even if error = undefined in order to overwrite existing error
+		this.setState (() => {
+			return { error };
+		});
 	}
 
 	render() {
