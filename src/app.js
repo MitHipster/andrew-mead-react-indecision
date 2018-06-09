@@ -22,11 +22,11 @@ class IndecisionApp extends React.Component {
 	}
 	handleAddOption(option) {
 		if (!option) {
-			return 'Please enter a valid value.'
+			return 'Please enter a valid option.';
 		} else if (this.state.options.indexOf(option) !== -1) {
-			return 'Oops! This option has already been entered.'
+			return 'Oops! This option has already been entered.';
 		}
-		this.setState((prevState) => {
+		this.setState(prevState => {
 			// We avoided using the push method as that would have mutated state
 			return {
 				options: prevState.options.concat(option)
@@ -48,56 +48,43 @@ class IndecisionApp extends React.Component {
 					options={this.state.options}
 					handleDeleteOptions={this.handleDeleteOptions}
 				/>
-				<AddOption handleAddOption={this.handleAddOption}/>
+				<AddOption handleAddOption={this.handleAddOption} />
 			</div>
 		);
 	}
 }
 
-class Header extends React.Component {
-	render() {
-		return (
-			<div>
-				<h1>{this.props.title}</h1>
-				<h2>{this.props.subtitle}</h2>
-			</div>
-		);
-	}
-}
+const Header = props => {
+	return (
+		<div>
+			<h1>{props.title}</h1>
+			<h2>{props.subtitle}</h2>
+		</div>
+	);
+};
 
-class Action extends React.Component {
-	render() {
-		return (
-			<div>
-				<button
-					onClick={this.props.handlePick}
-					disabled={!this.props.hasOptions}
-				>
-					What should I do?
-				</button>
-			</div>
-		);
-	}
-}
+const Action = props => {
+	return (
+		<div>
+			<button onClick={props.handlePick} disabled={!props.hasOptions}>
+				What should I do?
+			</button>
+		</div>
+	);
+};
 
-class Options extends React.Component {
-	render() {
-		return (
-			<div>
-				<button onClick={this.props.handleDeleteOptions}>Remove All</button>
-				{this.props.options.map((option, i) => (
-					<Option key={i} text={option} />
-				))}
-			</div>
-		);
-	}
-}
+const Options = props => {
+	return (
+		<div>
+			<button onClick={props.handleDeleteOptions}>Remove All</button>
+			{props.options.map((option, i) => <Option key={i} text={option} />)}
+		</div>
+	);
+};
 
-class Option extends React.Component {
-	render() {
-		return <div>{this.props.text}</div>;
-	}
-}
+const Option = props => {
+	return <div>{props.text}</div>;
+};
 
 class AddOption extends React.Component {
 	constructor(props) {
@@ -112,12 +99,12 @@ class AddOption extends React.Component {
 
 		const option = e.target.elements.option.value.trim();
 		const error = this.props.handleAddOption(option);
-		
+
 		if (!error) {
 			e.target.elements.option.value = '';
 		}
 		// Need to setState even if error = undefined in order to overwrite existing error
-		this.setState (() => {
+		this.setState(() => {
 			return { error };
 		});
 	}
