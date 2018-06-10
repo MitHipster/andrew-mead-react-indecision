@@ -9,11 +9,30 @@ class IndecisionApp extends React.Component {
 			options: props.options
 		};
 	}
+	componentDidMount() {
+		try {
+			const json = localStorage.getItem('options');
+			const options = JSON.parse(json);
+
+			if (options) {
+				this.setState(() => ({ options }));
+			}
+		} catch (e) {
+			// Do nothing and fallback to default empty array
+		}
+	}
+	componentDidUpdate(prevProps, prevState) {
+		// Prevent method if options are unchanged. Note: prevProps is first in argument list
+		if (prevState.options.length !== this.state.options.length) {
+			const json = JSON.stringify(this.state.options);
+			localStorage.setItem('options', json);
+		}
+	}
 	handleDeleteOptions() {
 		this.setState(() => ({ options: [] }));
 	}
 	handleDeleteOption(removeOption) {
-		this.setState((prevState) => ({
+		this.setState(prevState => ({
 			options: prevState.options.filter(option => removeOption !== option)
 		}));
 	}
@@ -80,9 +99,11 @@ const Action = props => {
 };
 
 const Options = props => {
+	console.log(props.options.length);
 	return (
 		<div>
 			<button onClick={props.handleDeleteOptions}>Remove All</button>
+			{!props.options.length && <p>Please add an option to get started.</p>}
 			{props.options.map((option, i) => (
 				<Option
 					key={i}
@@ -98,9 +119,7 @@ const Option = props => {
 	return (
 		<div>
 			{props.optionText}
-			<button
-				onClick={e => props.handleDeleteOption(props.optionText)}
-			>
+			<button onClick={e => props.handleDeleteOption(props.optionText)}>
 				Remove
 			</button>
 		</div>
@@ -120,12 +139,12 @@ class AddOption extends React.Component {
 
 		const option = e.target.elements.option.value.trim();
 		const error = this.props.handleAddOption(option);
+		// Need to setState even if error = undefined in order to overwrite existing error
+		this.setState(() => ({ error }));
 
 		if (!error) {
 			e.target.elements.option.value = '';
 		}
-		// Need to setState even if error = undefined in order to overwrite existing error
-		this.setState(() => ({ error }));
 	}
 
 	render() {
@@ -141,7 +160,4 @@ class AddOption extends React.Component {
 	}
 }
 
-ReactDOM.render(
-	<IndecisionApp options={['Learn React', 'Learn more about ES6']} />,
-	document.getElementById('app')
-);
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));

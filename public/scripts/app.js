@@ -27,6 +27,31 @@ var IndecisionApp = function (_React$Component) {
 	}
 
 	_createClass(IndecisionApp, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			try {
+				var json = localStorage.getItem('options');
+				var options = JSON.parse(json);
+
+				if (options) {
+					this.setState(function () {
+						return { options: options };
+					});
+				}
+			} catch (e) {
+				// Do nothing and fallback to default empty array
+			}
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+			// Prevent method if options are unchanged. Note: prevProps is first in argument list
+			if (prevState.options.length !== this.state.options.length) {
+				var json = JSON.stringify(this.state.options);
+				localStorage.setItem('options', json);
+			}
+		}
+	}, {
 		key: 'handleDeleteOptions',
 		value: function handleDeleteOptions() {
 			this.setState(function () {
@@ -128,6 +153,7 @@ var Action = function Action(props) {
 };
 
 var Options = function Options(props) {
+	console.log(props.options.length);
 	return React.createElement(
 		'div',
 		null,
@@ -135,6 +161,11 @@ var Options = function Options(props) {
 			'button',
 			{ onClick: props.handleDeleteOptions },
 			'Remove All'
+		),
+		!props.options.length && React.createElement(
+			'p',
+			null,
+			'Please add an option to get started.'
 		),
 		props.options.map(function (option, i) {
 			return React.createElement(Option, {
@@ -153,11 +184,9 @@ var Option = function Option(props) {
 		props.optionText,
 		React.createElement(
 			'button',
-			{
-				onClick: function onClick(e) {
+			{ onClick: function onClick(e) {
 					return props.handleDeleteOption(props.optionText);
-				}
-			},
+				} },
 			'Remove'
 		)
 	);
@@ -185,14 +214,14 @@ var AddOption = function (_React$Component2) {
 
 			var option = e.target.elements.option.value.trim();
 			var error = this.props.handleAddOption(option);
-
-			if (!error) {
-				e.target.elements.option.value = '';
-			}
 			// Need to setState even if error = undefined in order to overwrite existing error
 			this.setState(function () {
 				return { error: error };
 			});
+
+			if (!error) {
+				e.target.elements.option.value = '';
+			}
 		}
 	}, {
 		key: 'render',
@@ -222,4 +251,4 @@ var AddOption = function (_React$Component2) {
 	return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, { options: ['Learn React', 'Learn more about ES6'] }), document.getElementById('app'));
+ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
