@@ -5,15 +5,34 @@ import AddOption from './AddOption';
 import Options from './Options';
 
 export default class IndecisionApp extends React.Component {
-	constructor(props) {
-		super(props);
-		this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-		this.handleDeleteOption = this.handleDeleteOption.bind(this);
-		this.handlePick = this.handlePick.bind(this);
-		this.handleAddOption = this.handleAddOption.bind(this);
-		this.state = {
-			options: props.options
-		};
+	state = { options: [] };
+	handleDeleteOptions = () => {
+		this.setState(() => ({ options: [] }));
+	};
+	handleDeleteOption = removeOption => {
+		this.setState(prevState => ({
+			options: prevState.options.filter(option => removeOption !== option)
+		}));
+	};
+	handlePick = () => {
+		console.log('Clicked');
+		const randomPick = Math.floor(Math.random() * this.state.options.length);
+		alert(this.state.options[randomPick]);
+	};
+	handleAddOption = option => {
+		if (!option) {
+			return 'Please enter a valid option.';
+		} else if (this.state.options.indexOf(option) !== -1) {
+			return 'Oops! This option has already been entered.';
+		}
+		// We avoided using the push method as that would have mutated state
+		this.setState(prevState => ({ options: prevState.options.concat(option) }));
+	};
+	// Is this how you would pass default props using ES6 class properties?
+	componentWillReceiveProps(props) {
+		this.setState(() => {
+			options: props.options;
+		});
 	}
 	componentDidMount() {
 		try {
@@ -33,28 +52,6 @@ export default class IndecisionApp extends React.Component {
 			const json = JSON.stringify(this.state.options);
 			localStorage.setItem('options', json);
 		}
-	}
-	handleDeleteOptions() {
-		this.setState(() => ({ options: [] }));
-	}
-	handleDeleteOption(removeOption) {
-		this.setState(prevState => ({
-			options: prevState.options.filter(option => removeOption !== option)
-		}));
-	}
-	handlePick() {
-		console.log('Clicked');
-		const randomPick = Math.floor(Math.random() * this.state.options.length);
-		alert(this.state.options[randomPick]);
-	}
-	handleAddOption(option) {
-		if (!option) {
-			return 'Please enter a valid option.';
-		} else if (this.state.options.indexOf(option) !== -1) {
-			return 'Oops! This option has already been entered.';
-		}
-		// We avoided using the push method as that would have mutated state
-		this.setState(prevState => ({ options: prevState.options.concat(option) }));
 	}
 	render() {
 		const subtitle = 'Put your life in the hands of a computer';
