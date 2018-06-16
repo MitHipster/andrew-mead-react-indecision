@@ -24,9 +24,9 @@ export default class IndecisionApp extends React.Component {
 	};
 	handleAddOption = option => {
 		if (!option) {
-			return 'Please enter a valid option.';
+			return 'Please enter a valid option';
 		} else if (this.state.options.indexOf(option) !== -1) {
-			return 'Oops! This option has already been entered.';
+			return 'This option has already been entered';
 		}
 		// We avoided using the push method as that would have mutated state
 		this.setState(prevState => ({ options: prevState.options.concat(option) }));
@@ -65,16 +65,20 @@ export default class IndecisionApp extends React.Component {
 		return (
 			<div>
 				<Header subtitle={subtitle} />
-				<Action
-					hasOptions={this.state.options.length > 0}
-					handlePick={this.handlePick}
-				/>
-				<Options
-					options={this.state.options}
-					handleDeleteOptions={this.handleDeleteOptions}
-					handleDeleteOption={this.handleDeleteOption}
-				/>
-				<AddOption handleAddOption={this.handleAddOption} />
+				<div className="container">
+					<Action
+						hasOptions={this.state.options.length > 0}
+						handlePick={this.handlePick}
+					/>
+					<div className="widget">
+						<Options
+							options={this.state.options}
+							handleDeleteOptions={this.handleDeleteOptions}
+							handleDeleteOption={this.handleDeleteOption}
+						/>
+						<AddOption handleAddOption={this.handleAddOption} />
+					</div>
+				</div>
 				<OptionModal
 					selectedOption={this.state.selectedOption}
 					handleClearSelectedOption={this.handleClearSelectedOption}
