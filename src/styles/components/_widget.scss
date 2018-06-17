@@ -20,6 +20,9 @@
 	color: $off-white;
 	text-align: center;
 	margin: 0;
-	padding: $l-size;
+	padding: $m-size;
 	border-bottom: 1px solid lighten($light-gray, 10%);
+	@include desktop {
+		padding: $l-size;
+	}
 }

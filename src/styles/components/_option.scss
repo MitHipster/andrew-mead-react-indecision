@@ -7,9 +7,12 @@
 }
 
 .option__text {
-	font-size: 2rem;
+	font-size: 1.6rem;
 	font-weight: 500;
 	word-break: break-all;
 	color: white;
 	margin: 0;
+	@include desktop {
+		font-size: 2rem;
+	}
 }

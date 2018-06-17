@@ -26,7 +26,7 @@ export default class IndecisionApp extends React.Component {
 		if (!option) {
 			return 'Please enter a valid option';
 		} else if (this.state.options.indexOf(option) !== -1) {
-			return 'This option has already been entered';
+			return 'Option has already been entered';
 		}
 		// We avoided using the push method as that would have mutated state
 		this.setState(prevState => ({ options: prevState.options.concat(option) }));

@@ -1,6 +1,10 @@
 .add-option {
 	display: flex;
+	flex-direction: column;
 	padding: $m-size;
+	@include desktop {
+		flex-direction: row;
+	}
 }
 
 .add-option-error {
@@ -16,6 +20,9 @@
 	background: $dark-gray;
 	border: none;
 	border-bottom: 0.3rem solid darken($dark-gray, 10%);
-	margin-right: $s-size;
+	margin: 0 0 $s-size 0;
 	padding: $s-size;
+	@include desktop {
+		margin: 0 $s-size 0 0;
+	}
 }

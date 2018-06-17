@@ -12,3 +12,13 @@ $s-size: 1.2rem;
 $m-size: 1.6rem;
 $l-size: 3.2rem;
 $xl-size: 4.8rem;
+
+// Breakpoints
+$bp-desktop: 45rem;
+
+// Mixins
+@mixin desktop {
+	@media (min-width: #{$bp-desktop}) {
+		@content;
+	}
+}

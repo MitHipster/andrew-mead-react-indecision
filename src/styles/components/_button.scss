@@ -1,15 +1,19 @@
 .lg-button {
 	width: 100%;
-	font-size: $l-size;
+	font-size: $l-size - 0.8rem;
 	font-weight: bold;
 	color: white;
 	background-color: $purple;
 	border: none;
-	margin-bottom: $xl-size;
+	margin-bottom: $m-size;
 	padding: 2.4rem;
 	border-bottom: 0.6rem solid darken($purple, 10%);
 	&:disabled {
 		opacity: 0.6;
+	}
+	@include desktop {
+		font-size: $l-size;
+		margin-bottom: $xl-size;
 	}
 }
 
